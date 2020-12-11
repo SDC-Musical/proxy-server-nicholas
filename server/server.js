@@ -6,12 +6,21 @@ const port = 80;
 
 app.use(express.static('public'));
 
-app.use('*', createProxyMiddleware({
+app.use('/api', createProxyMiddleware({
   target: 'http://localhost',
   changeOrigin: true,
   router: {
-    '/api/reviews': 'http://localhost:3001',
-    '/api/products': 'http://localhost:3004'
+    '/reviews': 'http://localhost:3001',
+    '/products': 'http://localhost:3003'
+  }
+}));
+
+app.get('/products', createProxyMiddleware({
+  target: 'http://localhost',
+  changeOrigin: true,
+  router: {
+    '/reviews': 'http://localhost:3001',
+    '/products': 'http://localhost:3003'
   }
 }));
 
@@ -46,7 +55,7 @@ app.use('*', createProxyMiddleware({
 //   changeOrigin: true
 // }))
 
-app.use('/products/:current', (req, res) => {
+app.use('/:product_id', (req, res) => {
   res.sendFile(path.join(__dirname,'../public/index.html'));
 })
 
