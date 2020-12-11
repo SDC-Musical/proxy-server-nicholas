@@ -6,26 +6,35 @@ const port = 80;
 
 app.use(express.static('public'));
 
-app.use('/api/reviews/', createProxyMiddleware({
-  target: 'http://localhost:3001',
-  changeOrigin: true
+app.use('*', createProxyMiddleware({
+  target: 'http://localhost',
+  changeOrigin: true,
+  router: {
+    '/api/reviews': 'http://localhost:3001',
+    '/api/products': 'http://localhost:3004'
+  }
 }));
 
+// app.use('api/reviews', createProxyMiddleware({
+//   target: 'http://localhost:3001',
+//   changeOrigin: true
+// }));
+
 //copy and paste for other routes
-app.use('/api/seller/', createProxyMiddleware({
-  target: 'http://localhost:3002',
-  changeOrigin: true
-}))
+// app.use('/api/seller/', createProxyMiddleware({
+//   target: 'http://localhost:3002',
+//   changeOrigin: true
+// }))
 
-app.use('/api/images/', createProxyMiddleware({
-  target: 'http://localhost:3003',
-  changeOrigin: true
-}))
+// app.use('/api/images/', createProxyMiddleware({
+//   target: 'http://localhost:3003',
+//   changeOrigin: true
+// }))
 
-app.use('/api/products/', createProxyMiddleware({
-  target: 'http://localhost:3004',
-  changeOrigin: true
-}))
+// app.use('/api/products/', createProxyMiddleware({
+//   target: 'http://localhost:3004',
+//   changeOrigin: true
+// }))
 
 // app.use('/hashtags/', createProxyMiddleware({
 //   target: 'http://18.189.26.97:4001',
@@ -37,8 +46,8 @@ app.use('/api/products/', createProxyMiddleware({
 //   changeOrigin: true
 // }))
 
-app.use('/:current', (req, res) => {
-  res.sendFile(path.join(__dirname,'/public/index.html'));
+app.use('/products/:current', (req, res) => {
+  res.sendFile(path.join(__dirname,'../public/index.html'));
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
