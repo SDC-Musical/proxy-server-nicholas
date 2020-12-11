@@ -11,18 +11,18 @@ app.use('/api', createProxyMiddleware({
   changeOrigin: true,
   router: {
     '/reviews': 'http://localhost:3001',
-    '/products': 'http://localhost:3003'
+    '/products': 'http://localhost:3004'
   }
 }));
 
-app.get('/products', createProxyMiddleware({
-  target: 'http://localhost',
-  changeOrigin: true,
-  router: {
-    '/reviews': 'http://localhost:3001',
-    '/products': 'http://localhost:3003'
-  }
-}));
+// app.get('/products', createProxyMiddleware({
+//   target: 'http://localhost',
+//   changeOrigin: true,
+//   router: {
+//     '/reviews': 'http://localhost:3001',
+//     '/products': 'http://localhost:3004'
+//   }
+// }));
 
 // app.use('api/reviews', createProxyMiddleware({
 //   target: 'http://localhost:3001',
@@ -55,7 +55,7 @@ app.get('/products', createProxyMiddleware({
 //   changeOrigin: true
 // }))
 
-app.use('/:product_id', (req, res) => {
+app.use('/products/:product_id', (req, res) => {
   res.sendFile(path.join(__dirname,'../public/index.html'));
 })
 
