@@ -14,6 +14,11 @@ app.use('/reviews', createProxyMiddleware({
   }
 }))
 
+app.use('/api/reviews', createProxyMiddleware({
+  target: 'http://localhost:3001',
+  changeOrigin: true
+}))
+
 app.get('/:id', (req, res) => {
   res.sendFile(path.join(__dirname,'../public/index.html'));
 })
